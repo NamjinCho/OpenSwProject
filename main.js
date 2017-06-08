@@ -7,8 +7,14 @@ var emailSchema = mongoose.Schema({
   email : String
   ,seq: { type: Number, required: true }
 });
+var memberSchema = mongoose.Schema({
+  id : String,
+  password : String
+});
+
 connectionDB();
 var emailModel = mongoose.model("emails",emailSchema);
+var memberModel = mongoose.model("members",memberSchema);
 app.set('views',__dirname+'/');
 app.set('view engine','ejs');
 app.engine('html',require('ejs').renderFile);
@@ -31,6 +37,10 @@ app.post('/postTest',function(req,res){
       res.send("your Email is " + req.body.email +"\n"+"your numer of calling is " + doc.seq);
       }
 });
+app.post('/login',function(req,res){
+  login(req.body.id,req.body.password,res);
+
+});
 
 
   console.log("email : ", req.body.email)
@@ -46,6 +56,37 @@ app.get('/',function(req,res){
 app.listen(3000,function(){
   console.log('Exprement')
 })
+function login(l_id,pass,res)
+{
+  memberModel.findOne({id:l_id},function (err,doc){
+    if(!err)
+    {
+      if(doc){
+        console.log(l_id + " try to login\n ");
+        if(doc.password == pass)
+        {
+          res.send("Success");
+        }
+        else {
+          res.send("Failed , Not equals to password\n");
+        }
+      }
+      else {
+        join(l_id,pass);
+        login(l_id,pass);
+      }
+    }
+  });
+}
+function join(id,pass)
+{
+  memberModel.save(function(err){
+    if(!err)
+    {
+      console.log("Success Join");
+    }
+  });
+}
 function connectionDB()
 {
   mongoose.connect('mongodb://namjin:opensw@ds133261.mlab.com:33261/opensw'); // 기본 설정에 따라 포트가 상이 할 수 있습니다.
