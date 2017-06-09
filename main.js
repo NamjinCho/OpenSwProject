@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var path = require("path");
 var db;
 
 var emailSchema = mongoose.Schema({
@@ -17,9 +18,17 @@ connectionDB();
 var memberModel = mongoose.model("members",memberSchema);
 var emailModel = mongoose.model("emails",emailSchema);
 
-app.set('views',__dirname+'/');
+//app.set('views', __dirname+'/');
 app.set('view engine','ejs');
 app.engine('html',require('ejs').renderFile);
+
+var options = {
+  index: "index.html"
+};
+
+app.use(express.static(path.join(__dirname, "public"), options));
+app.use(express.static(path.join(__dirname, "js")));
+app.use(express.static(path.join(__dirname, "css")));
 
 
 app.use(bodyParser.json());
@@ -95,10 +104,7 @@ app.post('/login',function(req,res){
 
 
 
-app.get('/',function(req,res){
-  res.status(200).render('index.html')
-  //res.send('helloWorld')
-});
+
 
 
 app.listen(3000,function(){
