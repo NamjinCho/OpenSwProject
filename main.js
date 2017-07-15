@@ -57,6 +57,7 @@ app.post('/init',function(req,res){
 
     var id = req.body.id
     var data = id+"작품이 근처에 있습니다 By Server"
+    console.log(data)
     res.send(data)
 
 })
@@ -114,7 +115,7 @@ app.post('/login',function(req,res){
 
 
 
-app.listen(3000,function(){
+app.listen(80,function(){
   console.log('Exprement')
 })
 function login(l_id,pass,res)
