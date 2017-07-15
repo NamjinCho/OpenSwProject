@@ -61,6 +61,14 @@ app.post('/init',function(req,res){
     res.send(data)
 
 })
+app.post('/root',function(req,res){
+
+    var id = req.body.msg
+    var data = id
+    console.log(data)
+    res.send(data)
+
+})
 
 app.post('/login',function(req,res){
 
