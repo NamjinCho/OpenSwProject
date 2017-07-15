@@ -53,6 +53,13 @@ app.post('/postTest',function(req,res){
 
 });
 
+app.post('/init',function(req,res){
+
+    var id = req.body.id
+    var data = id+"작품이 근처에 있습니다 By Server"
+    res.send(data)
+
+})
 
 app.post('/login',function(req,res){
 
